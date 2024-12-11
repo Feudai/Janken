@@ -25,7 +25,7 @@ class CellularSimulation {
         this.cellSize = 1;
         this.probabilities = {
             fire: 0.001,
-            water: 0.1,
+            water: 0.01,
             erosion: 0.005,
             plant: 0.92,
             lava: 0.0005
