@@ -32,12 +32,12 @@ class CellularSimulation {
         // Réduction significative du nombre de cellules
         this.cellSize = 2;
         this.probabilities = {
-            fire: 0.01,
-            water: 0.05,
-            erosion: 0.3,
-            plant: 0.93,
-            lava: 0.0005,
-            stoneP: 0.05
+            fire: 0.99,
+            water: 0.99,
+            erosion: 0.0015,
+            plant: 0.05,
+            lava: 0.5,
+            stoneP: 0.75
         };
         
         this.cols = Math.floor(this.width / this.cellSize);
@@ -72,42 +72,44 @@ class CellularSimulation {
 
         // Conservation de la logique d'interaction originale
         if (current.state === 4) { // Pierre
-            if ((neighbor.state === 3 || neighbor.state === 0 || neighbor.state === 1) && Math.random() > this.probabilities.erosion) {
+            if ((neighbor.state === 3 || neighbor.state === 0 ) && Math.random() < this.probabilities.erosion) {
                 current.state = 0;
             }
-            if (neighbor.state === 3 && Math.random() > this.probabilities.plant) {
-                current.state = 2;
-            }
-            if (neighbor.state === 2) {
-                current.state = 2;
-            }
+            // if (neighbor.state === 3 && Math.random() > this.probabilities.plant) {
+            //     current.state = 2;
+            // }
+            // if (neighbor.state === 2 && Math.random() > this.probabilities.plant) {
+            //     current.state = 2;
+            // }
         }
         else if (current.state === 2) { // Plante
-            if (neighbor.state === 3 && Math.random() > this.probabilities.plant) {
+            if (neighbor.state === 3 && Math.random() < this.probabilities.plant) {
                 neighbor.state = 2;
             }
-            if (neighbor.state === 1) {
+            if (neighbor.state === 1&&Math.random() < this.probabilities.fire) {
                 current.state = 1;
             }
         }
         else if (current.state === 0) { // Air
-            if (neighbor.state === 3 && Math.random() > this.probabilities.water) {
-                if (Math.random() > this.probabilities.fire) {
+            if (neighbor.state === 3 && Math.random() < this.probabilities.water) {
+                if (Math.random() < this.probabilities.fire) {
                     current.state = 3;
                 }
+                
             }
-            else if (neighbor.state === 1) {
-                current.state = 1;
-            }
+            // else if (neighbor.state === 1) {
+            //     current.state = 1;
+            // }
         }
         else if (current.state === 1) { // Feu
-            if (neighbor.state === 3) {
-                if (Math.random() > this.probabilities.lava) {
+            if (neighbor.state === 3 && Math.random() < this.probabilities.water) {
+                if (Math.random() < this.probabilities.lava) {
                     current.state = 4;
                 } else {
                     current.state = 0;
                 }
             }
+
         }
     }
 
