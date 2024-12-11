@@ -24,11 +24,12 @@ class CellularSimulation {
     setupParameters() {
         this.cellSize = 1;
         this.probabilities = {
-            fire: 0.001,
-            water: 0.01,
-            erosion: 0.005,
-            plant: 0.92,
-            lava: 0.0005
+            fire: 0.01,
+            water: 0.5,
+            erosion: 0.1,
+            plant: 0.93,
+            lava: 0.0005,
+            stoneP : 0.05
         };
         
         this.cols = Math.floor(this.width / this.cellSize);
@@ -40,7 +41,7 @@ class CellularSimulation {
             for (let j = 0; j < this.rows; j++) {
                 const index = j + i * this.cols;
                 this.cells[index] = Math.random() > 0.3 
-                    ? new Cell(Math.floor(Math.random() * 5 + 1)) 
+                    ?  new Cell(Math.random()<this.probabilities.stoneP?4:Math.floor(Math.random() * 4+1 )) 
                     : new Cell(0);
                 this.drawCell(i, j);
             }
