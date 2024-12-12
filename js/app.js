@@ -34,9 +34,9 @@ class CellularSimulation {
         this.probabilities = {
             fire: 0.99,
             water: 0.99,
-            erosion: 0.0015,
-            plant: 0.05,
-            lava: 0.5,
+            erosion: 0.001,
+            plant: 0.1,
+            lava: 0.05,
             stoneP: 0.75
         };
         
@@ -72,8 +72,13 @@ class CellularSimulation {
 
         // Conservation de la logique d'interaction originale
         if (current.state === 4) { // Pierre
-            if ((neighbor.state === 3 || neighbor.state === 0 ) && Math.random() < this.probabilities.erosion) {
+            if (Math.random() < this.probabilities.erosion) {
+                if(neighbor.state === 3) 
+                    current.state = 3;
+                    if(neighbor.state === 0 )
                 current.state = 0;
+                    if(neighbor.state === 2 )
+                        current.state = 2;
             }
             // if (neighbor.state === 3 && Math.random() > this.probabilities.plant) {
             //     current.state = 2;
